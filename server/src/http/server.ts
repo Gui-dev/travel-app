@@ -1,11 +1,14 @@
 import Fastify from 'fastify'
+import {
+  serializerCompiler,
+  validatorCompiler,
+} from 'fastify-type-provider-zod'
 
 const app = Fastify()
 const PORT = Number(process.env.PORT) || 3333
 
-app.get('/', () => {
-  return 'Hello World'
-})
+app.setValidatorCompiler(validatorCompiler)
+app.setSerializerCompiler(serializerCompiler)
 
 app
   .listen({
