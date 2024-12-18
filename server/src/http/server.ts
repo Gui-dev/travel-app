@@ -1,14 +1,24 @@
+import cors from '@fastify/cors'
 import Fastify from 'fastify'
 import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { confirmTrip } from './routes/confirm-trip'
+import { createTrip } from './routes/create-trip'
 
 const app = Fastify()
 const PORT = Number(process.env.PORT) || 3333
 
+app.register(cors, {
+  origin: '*',
+})
+
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
+
+app.register(createTrip)
+app.register(confirmTrip)
 
 app
   .listen({
