@@ -1,13 +1,8 @@
 import type { Trip } from '@prisma/client'
-import dayjs from 'dayjs'
-import ptBR from 'dayjs/locale/pt-br'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
 import nodemailer from 'nodemailer'
 import { getMailClient } from '../lib/mail'
 import { prisma } from '../lib/prisma'
-
-dayjs.locale(ptBR)
-dayjs.extend(localizedFormat)
+import { dayjs } from './../lib/dayjs'
 
 interface ICreateTripRequest {
   destination: string
