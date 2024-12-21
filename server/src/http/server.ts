@@ -8,6 +8,7 @@ import { confirmParticipant } from './routes/confirm-participant'
 import { confirmTrip } from './routes/confirm-trip'
 import { createActivity } from './routes/create-activity'
 import { createTrip } from './routes/create-trip'
+import { getActivities } from './routes/get-activities'
 
 const app = Fastify()
 const PORT = Number(process.env.PORT) || 3333
@@ -23,6 +24,7 @@ app.register(createTrip)
 app.register(confirmTrip)
 app.register(confirmParticipant)
 app.register(createActivity)
+app.register(getActivities)
 
 app
   .listen({
