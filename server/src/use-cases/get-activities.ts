@@ -1,4 +1,5 @@
 import type { Activity } from '@prisma/client'
+import { ClientError } from '../http/error/errors/client-error'
 import { prisma } from '../lib/prisma'
 import { dayjs } from './../lib/dayjs'
 
@@ -30,7 +31,7 @@ export const getAcitivitiesUseCase = async ({
   })
 
   if (!trip) {
-    throw new Error('Trip not found')
+    throw new ClientError('Trip not found')
   }
 
   const differenceInDaysBetweenTripStartAndEnd = dayjs(trip.ends_at).diff(

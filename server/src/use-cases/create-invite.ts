@@ -1,5 +1,6 @@
 import type { Participant } from '@prisma/client'
 import nodemailer from 'nodemailer'
+import { ClientError } from '../http/error/errors/client-error'
 import { getMailClient } from '../lib/mail'
 import { prisma } from '../lib/prisma'
 import { dayjs } from './../lib/dayjs'
@@ -24,7 +25,7 @@ export const createInviteUseCase = async ({
   })
 
   if (!trip) {
-    throw new Error('Trip not found')
+    throw new ClientError('Trip not found')
   }
 
   const participant = await prisma.participant.create({

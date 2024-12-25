@@ -1,4 +1,5 @@
 import type { Trip } from '@prisma/client'
+import { ClientError } from '../http/error/errors/client-error'
 import { prisma } from '../lib/prisma'
 import { dayjs } from './../lib/dayjs'
 
@@ -26,15 +27,15 @@ export const updateTripUseCase = async ({
   })
 
   if (dayjs(starts_at).isBefore(new Date())) {
-    throw new Error('Invalid trip start date')
+    throw new ClientError('Invalid trip start date')
   }
 
   if (dayjs(ends_at).isBefore(starts_at)) {
-    throw new Error('Invalid trip end date')
+    throw new ClientError('Invalid trip end date')
   }
 
   if (!trip) {
-    throw new Error('Trip not found')
+    throw new ClientError('Trip not found')
   }
 
   const tripUpdated = await prisma.trip.update({

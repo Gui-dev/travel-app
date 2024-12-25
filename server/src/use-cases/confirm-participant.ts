@@ -1,4 +1,5 @@
 import type { Participant } from '@prisma/client'
+import { ClientError } from '../http/error/errors/client-error'
 import { prisma } from './../lib/prisma'
 
 interface IConfirmParticipantsRequest {
@@ -15,11 +16,11 @@ export const confirmParticipantsUseCase = async ({
   })
 
   if (!participant) {
-    throw new Error('Participant not found')
+    throw new ClientError('Participant not found')
   }
 
   if (participant.is_confirmed) {
-    throw new Error('Trip already confirmed')
+    throw new ClientError('Trip already confirmed')
   }
 
   await prisma.participant.update({

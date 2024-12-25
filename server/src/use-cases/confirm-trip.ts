@@ -1,5 +1,6 @@
 import type { Trip } from '@prisma/client'
 import nodemailer from 'nodemailer'
+import { ClientError } from '../http/error/errors/client-error'
 import { dayjs } from './../lib/dayjs'
 import { getMailClient } from './../lib/mail'
 import { prisma } from './../lib/prisma'
@@ -25,11 +26,11 @@ export const confirmTripUseCase = async ({
   })
 
   if (!trip) {
-    throw new Error('Trip not found')
+    throw new ClientError('Trip not found')
   }
 
   if (trip.is_confirmed) {
-    throw new Error('Trip already confirmed')
+    throw new ClientError('Trip already confirmed')
   }
 
   await prisma.trip.update({

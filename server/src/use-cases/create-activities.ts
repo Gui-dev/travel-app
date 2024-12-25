@@ -1,4 +1,5 @@
 import type { Activity } from '@prisma/client'
+import { ClientError } from '../http/error/errors/client-error'
 import { prisma } from '../lib/prisma'
 import { dayjs } from './../lib/dayjs'
 
@@ -24,15 +25,15 @@ export const createAcitivitiesUseCase = async ({
   })
 
   if (!trip) {
-    throw new Error('Trip not found')
+    throw new ClientError('Trip not found')
   }
 
   if (dayjs(occurs_at).isBefore(trip.starts_at)) {
-    throw new Error('Invalid activity date')
+    throw new ClientError('Invalid activity date')
   }
 
   if (dayjs(occurs_at).isAfter(trip.ends_at)) {
-    throw new Error('Invalid activity date')
+    throw new ClientError('Invalid activity date')
   }
 
   const activity = await prisma.activity.create({

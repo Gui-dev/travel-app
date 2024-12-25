@@ -1,4 +1,5 @@
 import type { Link } from '@prisma/client'
+import { ClientError } from '../http/error/errors/client-error'
 import { prisma } from '../lib/prisma'
 
 interface IGetLinksUseCaseRequest {
@@ -22,7 +23,7 @@ export const getLinksUseCase = async ({
   })
 
   if (!trip) {
-    throw new Error('Trip not found')
+    throw new ClientError('Trip not found')
   }
 
   return {

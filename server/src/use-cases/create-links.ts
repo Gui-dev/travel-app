@@ -1,4 +1,5 @@
 import type { Link } from '@prisma/client'
+import { ClientError } from '../http/error/errors/client-error'
 import { prisma } from '../lib/prisma'
 
 interface ICreateLinkUseCaseRequest {
@@ -23,7 +24,7 @@ export const createLinkUseCase = async ({
   })
 
   if (!trip) {
-    throw new Error('Trip not found')
+    throw new ClientError('Trip not found')
   }
 
   const link = await prisma.link.create({

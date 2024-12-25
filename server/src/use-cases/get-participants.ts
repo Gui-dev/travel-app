@@ -1,4 +1,5 @@
 import type { Participant } from '@prisma/client'
+import { ClientError } from '../http/error/errors/client-error'
 import { prisma } from '../lib/prisma'
 
 interface IGetParticipantsUseCaseRequest {
@@ -29,7 +30,7 @@ export const getParticipantsUseCase = async ({
   })
 
   if (!trip) {
-    throw new Error('Trip not found')
+    throw new ClientError('Trip not found')
   }
 
   return {
