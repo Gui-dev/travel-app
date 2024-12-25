@@ -1,6 +1,7 @@
 import type { Participant } from '@prisma/client'
 import nodemailer from 'nodemailer'
 import { ClientError } from '../http/error/errors/client-error'
+import { env } from '../lib/env'
 import { getMailClient } from '../lib/mail'
 import { prisma } from '../lib/prisma'
 import { dayjs } from './../lib/dayjs'
@@ -40,7 +41,7 @@ export const createInviteUseCase = async ({
 
   const mail = await getMailClient()
 
-  const confirmationLink = `http://localhost:3333/participants/${participant.id}/confirm`
+  const confirmationLink = `${env.API_BASE_URL}/participants/${participant.id}/confirm`
   const message = await mail.sendMail({
     from: {
       name: 'Equipe travel.app',

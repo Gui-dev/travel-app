@@ -4,6 +4,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { env } from '../lib/env'
 import { errorHandler } from './error/error-handler'
 import { confirmParticipant } from './routes/confirm-participant'
 import { confirmTrip } from './routes/confirm-trip'
@@ -19,7 +20,7 @@ import { getTripDetails } from './routes/get-trip-details'
 import { updateTrip } from './routes/update.trip'
 
 const app = Fastify()
-const PORT = Number(process.env.PORT) || 3333
+const PORT = env.PORT
 
 app.register(cors, {
   origin: '*',
