@@ -7,7 +7,23 @@ import { ImportantLinks } from '@/components/trip-details/important-links'
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
 
-export const TripDetailsPage = () => {
+export interface ITripDetailsPageProps {
+  trip: {
+    id: string
+    destination: string
+    ends_at: string
+    is_confirmed: boolean
+    starts_at: string
+  }
+  guests: {
+    id: string
+    name: string | null
+    email: string
+    is_confirmed: boolean
+  }[]
+}
+
+export const TripDetailsPage = ({ trip, guests }: ITripDetailsPageProps) => {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
     useState(false)
 
@@ -21,7 +37,7 @@ export const TripDetailsPage = () => {
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
-      <DestinationAndDateHeader />
+      <DestinationAndDateHeader trip={trip} />
 
       <main className="flex gap-16 px-4">
         <div className="flex-1 space-y-6">
@@ -45,7 +61,7 @@ export const TripDetailsPage = () => {
 
           <div className="h-px w-full bg-zinc-800" />
 
-          <Guests />
+          <Guests guests={guests} />
         </div>
       </main>
 
