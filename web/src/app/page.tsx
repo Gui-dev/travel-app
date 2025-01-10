@@ -1,4 +1,4 @@
-import { SearchInput } from '@/components/search-input'
+import { CreateTrip } from '@/components/create-trip'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -12,7 +12,7 @@ export default function Home() {
             Convide seus amigos e planeje sua próxima viagem!
           </p>
         </div>
-        <SearchInput />
+        <CreateTrip />
         <p className="text-sm text-zinc-500">
           Ao planejar sua viagem pela Travel.app você automaticamente concorda{' '}
           <br />

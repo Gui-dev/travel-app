@@ -15,18 +15,21 @@ import 'react-day-picker/dist/style.css'
 interface IDestinationAndDateStepProps {
   onOpenGuestsInput: () => void
   onCloseGuestsInput: () => void
+  onDestination: (destination: string) => void
+  onEventStartAndEndDates: (date: DateRange | undefined) => void
+  eventStartAndEndDates: DateRange | undefined
   isGuestsInputOpen: boolean
 }
 
 export const DestinationAndDateStep = ({
   onOpenGuestsInput,
   onCloseGuestsInput,
+  onDestination,
+  onEventStartAndEndDates,
+  eventStartAndEndDates,
   isGuestsInputOpen,
 }: IDestinationAndDateStepProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
-    DateRange | undefined
-  >()
   const defaultClassNames = getDefaultClassNames()
 
   const handleOpenDatepicker = () => {
@@ -55,6 +58,7 @@ export const DestinationAndDateStep = ({
             placeholder="Para onde você vai?"
             className="flex flex-1 bg-transparent text-lg placeholder-zinc-400 outline-none"
             disabled={isGuestsInputOpen}
+            onChange={event => onDestination(event.target.value)}
           />
         </div>
         <button
@@ -105,7 +109,7 @@ export const DestinationAndDateStep = ({
             <DayPicker
               mode="range"
               selected={eventStartAndEndDates}
-              onSelect={setEventStartAndEndDates}
+              onSelect={onEventStartAndEndDates}
               classNames={{
                 selected: `${defaultClassNames.selected} text-zinc-500 `, // Highlight the selected day
                 root: `${defaultClassNames.root} shadow-lg p-5 text-zinc-200`, // Add a shadow to the root element

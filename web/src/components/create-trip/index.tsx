@@ -1,19 +1,28 @@
 'use client'
-
+import { createTrip } from '@/app/actions/create-trip'
+import type { AxiosError } from 'axios'
 import {} from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
+import type { DateRange } from 'react-day-picker'
 import { ConfirmTripModal } from './confirm-trip-modal'
 import { InviteGuestsModal } from './invite-guests-modal'
 import { DestinationAndDateStep } from './steps/destination-and-date-step'
 import { InviteGuestsStep } from './steps/invite-guests-step'
 
-export const SearchInput = () => {
+export const CreateTrip = () => {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
   const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false)
   const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false)
   const [emailsToInvite, setEmailsToInvite] = useState<Array<string>>([])
   const route = useRouter()
+
+  const [destination, setDestination] = useState('')
+  const [ownerName, setOwnerName] = useState('')
+  const [ownerEmail, setOwnerEmail] = useState('')
+  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
+    DateRange | undefined
+  >()
 
   const handleOpenGuestsInput = () => {
     setIsGuestsInputOpen(true)
@@ -59,10 +68,31 @@ export const SearchInput = () => {
     setEmailsToInvite(state => state.filter(invited => invited !== email))
   }
 
-  const handleCreateTrip = (event: FormEvent<HTMLFormElement>) => {
+  const handleCreateTrip = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log('CRIOU: ')
-    route.push('/trips/1234567')
+
+    if (!destination || !ownerName || !ownerEmail) {
+      return
+    }
+
+    if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+      return
+    }
+
+    try {
+      const response = await createTrip({
+        destination,
+        owner_name: ownerName,
+        owner_email: ownerEmail,
+        emails_to_invite: emailsToInvite,
+        starts_at: eventStartAndEndDates.from,
+        ends_at: eventStartAndEndDates.to,
+      })
+      route.push(`/trips/${response.trip_id}`)
+    } catch (error) {
+      const err = error as AxiosError
+      console.log('ERROR: ', err.message)
+    }
   }
 
   return (
@@ -71,6 +101,9 @@ export const SearchInput = () => {
         onOpenGuestsInput={handleOpenGuestsInput}
         onCloseGuestsInput={handleCloseGuestsInput}
         isGuestsInputOpen={isGuestsInputOpen}
+        onDestination={setDestination}
+        eventStartAndEndDates={eventStartAndEndDates}
+        onEventStartAndEndDates={setEventStartAndEndDates}
       />
 
       {isGuestsInputOpen && (
@@ -94,6 +127,8 @@ export const SearchInput = () => {
         <ConfirmTripModal
           onCloseConfirmTripModal={handleCloseConfirmTripModal}
           onCreateTrip={handleCreateTrip}
+          onOwnerName={setOwnerName}
+          onOwnerEmail={setOwnerEmail}
         />
       )}
     </div>
