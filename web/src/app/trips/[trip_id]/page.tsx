@@ -1,3 +1,4 @@
+import { getActivity } from '@/app/actions/get-activity'
 import { getGuests } from '@/app/actions/get-guests'
 import { getTrip } from '@/app/actions/get-trip'
 import { TripDetailsPage } from '@/pages/trip-details-page'
@@ -12,8 +13,11 @@ const TripDetails = async ({ params }: ITripDetailsParams) => {
   const { trip_id } = await params
   const trip = await getTrip(trip_id)
   const guests = await getGuests(trip_id)
+  const activities = await getActivity(trip_id)
 
-  return <TripDetailsPage trip={trip} guests={guests} />
+  console.log('ATIVIDADES: ', activities)
+
+  return <TripDetailsPage trip={trip} guests={guests} activities={activities} />
 }
 
 export default TripDetails

@@ -1,13 +1,37 @@
+'use client'
+
+import { createActivity } from '@/app/actions/create-activity'
 import { Calendar, Save, Tag, X } from 'lucide-react'
+import type { FormEvent } from 'react'
 import { Button } from '../button'
 
 interface ICreateActivityModalProps {
+  tripId: string
   onCloseCreateActivityModal: () => void
 }
 
 export const CreateActivityModal = ({
+  tripId,
   onCloseCreateActivityModal,
 }: ICreateActivityModalProps) => {
+  const handleCreateActivity = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    const activity = data.get('activity')?.toString()
+    const occurs_at = data.get('date')?.toString()
+
+    if (!activity || !occurs_at) {
+      return
+    }
+
+    await createActivity({
+      trip_id: tripId,
+      activity,
+      occurs_at,
+    })
+    onCloseCreateActivityModal()
+  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/60">
       <div className="w-[640px] space-y-5 rounded-xl bg-zinc-900 px-6 py-5 shadow-shape">
@@ -23,7 +47,7 @@ export const CreateActivityModal = ({
           </p>
         </div>
 
-        <form onSubmit={() => {}} className="flex flex-col gap-3">
+        <form onSubmit={handleCreateActivity} className="flex flex-col gap-3">
           <div className="flex flex-col gap-3">
             <div className="flex h-14 items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
               <Tag className="size-5 text-zinc-400" />

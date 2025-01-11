@@ -21,9 +21,21 @@ export interface ITripDetailsPageProps {
     email: string
     is_confirmed: boolean
   }[]
+  activities: {
+    date: string
+    activities: {
+      id: string
+      title: string
+      occurs_at: string
+    }[]
+  }[]
 }
 
-export const TripDetailsPage = ({ trip, guests }: ITripDetailsPageProps) => {
+export const TripDetailsPage = ({
+  trip,
+  guests,
+  activities,
+}: ITripDetailsPageProps) => {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
     useState(false)
 
@@ -53,7 +65,7 @@ export const TripDetailsPage = ({ trip, guests }: ITripDetailsPageProps) => {
             </button>
           </div>
 
-          <Activities />
+          <Activities activities={activities} />
         </div>
 
         <div className="w-80 space-y-6">
@@ -67,6 +79,7 @@ export const TripDetailsPage = ({ trip, guests }: ITripDetailsPageProps) => {
 
       {isCreateActivityModalOpen && (
         <CreateActivityModal
+          tripId={trip.id}
           onCloseCreateActivityModal={handleCloseCreateActivityModal}
         />
       )}
