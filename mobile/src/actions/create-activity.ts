@@ -12,13 +12,13 @@ type ActivityCreate = Omit<Activity, 'id'> & {
 
 export const createActivity = async ({
   tripId,
-  occurs_at,
   title,
+  occurs_at,
 }: ActivityCreate) => {
   try {
     const { data } = await api.post<{ activityId: string }>(
       `/trips/${tripId}/activities`,
-      { occurs_at, title },
+      { title, occurs_at },
     )
 
     return data

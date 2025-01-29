@@ -9,6 +9,7 @@ import { Slot } from 'expo-router'
 import { StatusBar, View } from 'react-native'
 
 import '@/styles/global.css'
+import '@/utils/dayjsLocaleConfig'
 
 const Layout = () => {
   const [fontsLoaded] = useFonts({

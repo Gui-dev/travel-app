@@ -1,6 +1,6 @@
-import dayjs, { Dayjs } from "dayjs"
-import { DateData, CalendarUtils } from "react-native-calendars"
-import { MarkedDates } from "react-native-calendars/src/types"
+import dayjs, { type Dayjs } from 'dayjs'
+import { CalendarUtils, type DateData } from 'react-native-calendars'
+import type { MarkedDates } from 'react-native-calendars/src/types'
 
 type OrderStartsAtAndEndsAt = {
   startsAt?: DateData
@@ -29,7 +29,7 @@ function orderStartsAtAndEndsAt({
     return {
       startsAt: selectedDay,
       endsAt: undefined,
-      formatDatesInText: "",
+      formatDatesInText: '',
       dates: getIntervalDates(selectedDay, selectedDay),
     }
   }
@@ -38,7 +38,7 @@ function orderStartsAtAndEndsAt({
     return {
       startsAt: selectedDay,
       endsAt: undefined,
-      formatDatesInText: "",
+      formatDatesInText: '',
       dates: getIntervalDates(selectedDay, selectedDay),
     }
   }
@@ -68,7 +68,7 @@ function orderStartsAtAndEndsAt({
 
 function formatDatesInText({ startsAt, endsAt }: FormatDatesInText) {
   const formatted = `${startsAt.date()} à ${endsAt.date()} de ${startsAt.format(
-    "MMMM"
+    'MMMM',
   )}`
 
   return formatted
@@ -82,13 +82,14 @@ function getIntervalDates(startsAt: DateData, endsAt: DateData): MarkedDates {
   const datesArray: string[] = []
 
   while (currentDate.isBefore(end) || currentDate.isSame(end)) {
-    datesArray.push(currentDate.format("YYYY-MM-DD"))
-    currentDate = currentDate.add(1, "day")
+    datesArray.push(currentDate.format('YYYY-MM-DD'))
+    currentDate = currentDate.add(1, 'day')
   }
 
   let interval: MarkedDates = {}
 
-  datesArray.forEach((date) => {
+  // biome-ignore lint/complexity/noForEach: <explanation>
+  datesArray.forEach(date => {
     interval = {
       ...interval,
       [date]: {

@@ -44,7 +44,8 @@
       "correctness": {
         "noUnusedImports": {
           "level": "warn"
-        }
+        },
+        "useExhaustiveDependencies": "off"
       },
       "style": {
         "noNonNullAssertion": "off"
