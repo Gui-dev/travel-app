@@ -41,7 +41,12 @@ export const createInviteUseCase = async ({
 
   const mail = await getMailClient()
 
-  const confirmationLink = `${env.API_BASE_URL}/participants/${participant.id}/confirm`
+  // const confirmationLink = `${env.API_BASE_URL}/participants/${participant.id}/confirm`
+  const confirmationLink = new URL(
+	`travel://trip/${trip.id}?participant_id=${participant.id}`, 
+	'http://192.168.0.102:8081'
+  )
+
   const message = await mail.sendMail({
     from: {
       name: 'Equipe travel.app',
